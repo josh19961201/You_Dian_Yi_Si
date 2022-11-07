@@ -19,8 +19,20 @@ export default async (event) => {
         const startDate = data[index].startDate.replaceAll('/', '-')
         const endDate = data[index].endDate.replaceAll('/', '-')
 
+        const bubble = JSON.parse(JSON.stringify(template))
+
         if (oneWeekLater >= startDate && oneWeekLater <= endDate) {
-          event.reply(show.title)
+          bubble.body.contents[0].text = show.title
+          concerts.push(bubble)
+          const reply = {
+            type: 'flex',
+            altText: '音樂展演查詢結果',
+            contents: {
+              type: 'carousel',
+              contents: concerts
+            }
+          }
+          event.reply(reply)
         }
       })
     } catch (error) {
