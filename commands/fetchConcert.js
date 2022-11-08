@@ -9,6 +9,8 @@ export default async (event) => {
       'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=1'
     )
     let concerts = []
+    const userCoordinate = ['25.0367564', '121.519047'] // 位置測試
+
     data.forEach(function (show, index) {
       const bubble = JSON.parse(JSON.stringify(template))
 
@@ -17,6 +19,25 @@ export default async (event) => {
       const startDate = show.startDate.replaceAll('/', '-')
       const endDate = show.endDate.replaceAll('/', '-')
       if (!(oneWeekLater >= startDate && today <= endDate)) return
+      if (
+        Math.abs(
+          parseFloat(userCoordinate[0]) - parseFloat(show.showInfo[0].latitude)
+        ) > 0.3 ||
+        Math.abs(
+          parseFloat(userCoordinate[1]) - parseFloat(show.showInfo[0].longitude)
+        ) > 0.3
+      ) {
+        return
+      }
+
+      // if (!(show.showInfo[0].latitude || show.showInfo[0].longitude)) {
+      //   addressTrans(show.showInfo[0].locationName)
+      // } else {
+      //   const coordinate = [
+      //     show.showInfo[0].latitude,
+      //     show.showInfo[0].longitude
+      //   ]
+      // }
 
       bubble.body.contents[0].text = show.title
       bubble.body.contents[1].contents[0].contents[1].text =
@@ -27,6 +48,8 @@ export default async (event) => {
         bubble.body.contents[1].contents[1].contents[1].text = `${show.startDate} - ${show.endDate}`
       }
       bubble.footer.contents[0].action.uri = show.sourceWebPromote
+
+      // 地點判斷
 
       concerts.push(bubble)
     })
