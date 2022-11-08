@@ -6,15 +6,15 @@ export default {
     contents: [
       {
         type: 'text',
-        text: '樹德科技大學表演藝術系 演出實務I《碎片之島》',
+        text: '展演名稱欄位',
         weight: 'bold',
-        size: 'xl',
+        size: 'lg',
         margin: 'none',
-        maxLines: 3,
         style: 'normal',
         decoration: 'none',
         align: 'start',
-        gravity: 'center'
+        gravity: 'center',
+        wrap: true
       },
       {
         type: 'box',
@@ -36,7 +36,7 @@ export default {
               },
               {
                 type: 'text',
-                text: '樹德科技大學 行政大樓 B2 實驗劇場',
+                text: '展演地點欄位',
                 wrap: true,
                 color: '#666666',
                 size: 'sm',
@@ -51,14 +51,36 @@ export default {
             contents: [
               {
                 type: 'text',
-                text: 'Time',
+                text: '日期',
                 color: '#aaaaaa',
                 size: 'sm',
                 flex: 1
               },
               {
                 type: 'text',
-                text: '2022/12/24 18:00:00',
+                text: '日期欄位',
+                wrap: true,
+                color: '#666666',
+                size: 'sm',
+                flex: 5
+              }
+            ]
+          },
+          {
+            type: 'box',
+            layout: 'baseline',
+            spacing: 'sm',
+            contents: [
+              {
+                type: 'text',
+                text: '備註',
+                color: '#aaaaaa',
+                size: 'sm',
+                flex: 1
+              },
+              {
+                type: 'text',
+                text: '詳細資訊請至活動頁面查看',
                 wrap: true,
                 color: '#666666',
                 size: 'sm',
@@ -81,8 +103,8 @@ export default {
         height: 'sm',
         action: {
           type: 'uri',
-          label: '詳細資料',
-          uri: 'https://linecorp.com'
+          label: '詳細資訊',
+          uri: 'https://ticket.com.tw/Application/UTK02/UTK0201_.aspx?PRODUCT_ID=N1MO2DM9'
         }
       },
       {

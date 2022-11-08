@@ -15,7 +15,7 @@ bot.on('message', async (event) => {
   if (event.message.type !== 'text') {
     event.reply('唉呀！發生了一點小錯誤...')
   }
-  if (event.message.text === '音樂') {
+  if (event.message.text === '音樂展演') {
     fetchConcert(event)
   }
 })
