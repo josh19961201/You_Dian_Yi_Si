@@ -1,7 +1,4 @@
-const userLocation = [25.0337335, 121.5636135]
-const showLocation = [25.0363267, 121.4304662]
-
-const distance = (lat1, lng1, lat2, lng2) => {
+export default (lat1, lng1, lat2, lng2) => {
   if (lat1 === lat2 && lng1 === lng2) {
     return 0
   } else {
@@ -19,7 +16,3 @@ const distance = (lat1, lng1, lat2, lng2) => {
     return dist
   }
 }
-
-console.log(
-  distance(userLocation[0], userLocation[1], showLocation[0], showLocation[1])
-)
