@@ -10,14 +10,14 @@ export default async (event) => {
     const { data } = await axios.get(
       'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6'
     )
-    const concerts = []
+    const exhibitions = []
     let x = 0
 
     data.forEach(function (show, index) {
-      //   if (x > 9) return
-
+      if (x > 9) return
       const bubble = JSON.parse(JSON.stringify(template))
 
+      // 時間判斷
       const today = DateTime.now().toISODate()
       //   const oneWeekLater = DateTime.fromISO(today).plus({ days: 7 }).toISODate()
       const startDate = show.startDate.replaceAll('/', '-')
@@ -33,9 +33,12 @@ export default async (event) => {
 
       if (show.showInfo[0].locationName.includes('線上')) return
 
-      let showCoordinate = []
-      if (!(show.showInfo[0].latitude || show.showInfo[0].longitude)) {
-        showCoordinate = googleMapsApi(show.showInfo[0].locationName)
+      let showCoordinate
+      if (
+        show.showInfo[0].latitude === null ||
+        show.showInfo[0].longitude === null
+      ) {
+        googleMapsApi(show.showInfo[0].locationName)
       } else {
         showCoordinate = [
           parseFloat(show.showInfo[0].latitude),
@@ -43,16 +46,18 @@ export default async (event) => {
         ]
       }
 
-      if (
-        distance(
-          userCoordinate[0],
-          userCoordinate[1],
-          showCoordinate[0],
-          showCoordinate[1]
-        ) >= 5
-      ) {
-        return
-      }
+      console.log(showCoordinate)
+
+      // if (
+      //   distance(
+      //     userCoordinate[0],
+      //     userCoordinate[1],
+      //     showCoordinate[0],
+      //     showCoordinate[1]
+      //   ) >= 1
+      // ) {
+      //   return
+      // }
 
       bubble.body.contents[0].text = show.title
       bubble.body.contents[1].contents[0].contents[1].text =
@@ -64,31 +69,30 @@ export default async (event) => {
       }
       bubble.footer.contents[0].action.uri = show.sourceWebPromote
 
-      concerts.push(bubble)
+      exhibitions.push(bubble)
 
-      console.log(x)
       x++
     })
-    // concerts = concerts.slice(0, 9)
+    // exhibitions = exhibitions.slice(0, 9)
 
-    concerts.forEach(function (show, index) {
-      if (!concerts[index].footer.contents[0].action.uri) {
-        delete concerts[index].footer
-        concerts[index].body.contents[1].contents[2].contents[1].text =
+    exhibitions.forEach(function (show, index) {
+      if (!exhibitions[index].footer.contents[0].action.uri) {
+        delete exhibitions[index].footer
+        exhibitions[index].body.contents[1].contents[2].contents[1].text =
           '無提供外部連結，相關資訊請自行搜尋'
       }
     })
 
     const reply = {
       type: 'flex',
-      altText: '音樂展演查詢結果',
+      altText: '展覽查詢結果',
       contents: {
         type: 'carousel',
-        contents: concerts
+        contents: exhibitions
       }
     }
     event.reply(reply)
-    writejson(reply, 'concerts')
+    writejson(reply, 'exhibitions')
   } catch (error) {
     console.log(error)
   }

@@ -13,6 +13,6 @@ export default (lat1, lng1, lat2, lng2) => {
       dist = 1
     }
     dist = ((Math.acos(dist) * 180) / Math.PI) * 60 * 1.1515 * 1.609344
-    return dist
+    return parseFloat(dist)
   }
 }

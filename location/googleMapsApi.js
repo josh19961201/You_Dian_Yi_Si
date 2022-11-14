@@ -11,9 +11,8 @@ export default async (address) => {
       parseFloat(data.results[0].geometry.location.lat),
       parseFloat(data.results[0].geometry.location.lng)
     ]
-
-    return showCoordinate
+    address.showCoordinate(showCoordinate)
   } catch (error) {
-    console.log(error)
+    address.showCoordinate([0, 0])
   }
 }
