@@ -49,7 +49,6 @@ export default async (event) => {
         showCoordinate[1]
       )
       if (distance > 5) continue
-      console.log(distance)
 
       bubble.body.contents[0].text = show.title
       bubble.body.contents[1].contents[0].contents[1].text =
