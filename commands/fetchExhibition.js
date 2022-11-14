@@ -11,19 +11,15 @@ export default async (event) => {
       'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6'
     )
     const exhibitions = []
-    let x = 0
 
-    data.forEach(async function (show, index) {
-      if (x > 9) return
+    for (const show of data) {
       const bubble = JSON.parse(JSON.stringify(template))
 
       // 時間判斷
       const today = DateTime.now().toISODate()
-      //   const oneWeekLater = DateTime.fromISO(today).plus({ days: 7 }).toISODate()
       const startDate = show.startDate.replaceAll('/', '-')
       const endDate = show.endDate.replaceAll('/', '-')
-      //   if (!(oneWeekLater >= startDate && today <= endDate)) return
-      if (today <= startDate) return
+      if (today <= startDate) continue
 
       //   地點判斷
       const userCoordinate = [
@@ -31,7 +27,7 @@ export default async (event) => {
         parseFloat(event.message.longitude)
       ]
 
-      if (show.showInfo[0].locationName.includes('線上')) return
+      if (show.showInfo[0].locationName.includes('線上')) continue
 
       let showCoordinate
       if (
@@ -52,6 +48,7 @@ export default async (event) => {
         showCoordinate[0],
         showCoordinate[1]
       )
+      if (distance > 5) continue
       console.log(distance)
 
       bubble.body.contents[0].text = show.title
@@ -65,10 +62,8 @@ export default async (event) => {
       bubble.footer.contents[0].action.uri = show.sourceWebPromote
 
       exhibitions.push(bubble)
-
-      x++
-    })
-    console.log(x)
+      if (exhibitions.length > 9) break
+    }
     exhibitions.forEach(function (show, index) {
       if (!exhibitions[index].footer.contents[0].action.uri) {
         delete exhibitions[index].footer
