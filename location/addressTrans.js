@@ -7,12 +7,11 @@ export default async (address) => {
     const { data } = await axios.get(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_API_KEY}`
     )
-    const showCoordinate = [
+    return [
       parseFloat(data.results[0].geometry.location.lat),
       parseFloat(data.results[0].geometry.location.lng)
     ]
-    address.showCoordinate(showCoordinate)
   } catch (error) {
-    address.showCoordinate([0, 0])
+    return [0, 0]
   }
 }

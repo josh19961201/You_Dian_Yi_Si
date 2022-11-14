@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { DateTime } from 'luxon'
 import template from '../templates/flexConcert.js'
-import writejson from '../utils/writejson.js'
-import googleMapsApi from '../location/googleMapsApi.js'
-import distance from '../location/distance.js'
+// import writejson from '../utils/writejson.js'
+import addressTrans from '../location/addressTrans.js'
+import distanceCalc from '../location/distanceCalc.js'
 
 export default async (event) => {
   try {
@@ -13,7 +13,7 @@ export default async (event) => {
     const exhibitions = []
     let x = 0
 
-    data.forEach(function (show, index) {
+    data.forEach(async function (show, index) {
       if (x > 9) return
       const bubble = JSON.parse(JSON.stringify(template))
 
@@ -38,7 +38,7 @@ export default async (event) => {
         show.showInfo[0].latitude === null ||
         show.showInfo[0].longitude === null
       ) {
-        googleMapsApi(show.showInfo[0].locationName)
+        showCoordinate = await addressTrans(show.showInfo[0].locationName)
       } else {
         showCoordinate = [
           parseFloat(show.showInfo[0].latitude),
@@ -46,18 +46,13 @@ export default async (event) => {
         ]
       }
 
-      console.log(showCoordinate)
-
-      // if (
-      //   distance(
-      //     userCoordinate[0],
-      //     userCoordinate[1],
-      //     showCoordinate[0],
-      //     showCoordinate[1]
-      //   ) >= 1
-      // ) {
-      //   return
-      // }
+      const distance = distanceCalc(
+        userCoordinate[0],
+        userCoordinate[1],
+        showCoordinate[0],
+        showCoordinate[1]
+      )
+      console.log(distance)
 
       bubble.body.contents[0].text = show.title
       bubble.body.contents[1].contents[0].contents[1].text =
@@ -73,8 +68,7 @@ export default async (event) => {
 
       x++
     })
-    // exhibitions = exhibitions.slice(0, 9)
-
+    console.log(x)
     exhibitions.forEach(function (show, index) {
       if (!exhibitions[index].footer.contents[0].action.uri) {
         delete exhibitions[index].footer
@@ -92,7 +86,7 @@ export default async (event) => {
       }
     }
     event.reply(reply)
-    writejson(reply, 'exhibitions')
+    // writejson(reply, 'exhibitions')
   } catch (error) {
     console.log(error)
   }
