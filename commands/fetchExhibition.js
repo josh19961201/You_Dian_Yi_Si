@@ -23,8 +23,8 @@ export default async (event) => {
 
       //   地點判斷
       const userCoordinate = [
-        parseFloat(event.message.latitude),
-        parseFloat(event.message.longitude)
+        parseFloat(event.message.text.split(',')[1]),
+        parseFloat(event.message.text.split(',')[2])
       ]
 
       if (show.showInfo[0].locationName.includes('線上')) continue
@@ -63,13 +63,13 @@ export default async (event) => {
       exhibitions.push(bubble)
       if (exhibitions.length > 9) break
     }
-    exhibitions.forEach(function (show, index) {
-      if (!exhibitions[index].footer.contents[0].action.uri) {
-        delete exhibitions[index].footer
-        exhibitions[index].body.contents[1].contents[2].contents[1].text =
+    for (const show of exhibitions) {
+      if (!show.footer.contents[0].action.uri) {
+        delete show.footer
+        show.body.contents[1].contents[2].contents[1].text =
           '無提供外部連結，相關資訊請自行搜尋'
       }
-    })
+    }
 
     const reply = {
       type: 'flex',
