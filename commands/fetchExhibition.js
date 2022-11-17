@@ -17,6 +17,7 @@ export default async (event) => {
 
       // 時間判斷
       const today = DateTime.now().toISODate()
+      // const oneWeekLater = DateTime.fromISO(today).plus({ days: 7 }).toISODate()
       const startDate = show.startDate.replaceAll('/', '-')
       const endDate = show.endDate.replaceAll('/', '-')
       if (today <= startDate) continue
@@ -48,7 +49,7 @@ export default async (event) => {
         showCoordinate[0],
         showCoordinate[1]
       )
-      if (distance > 5) continue
+      if (distance > 10) continue
 
       bubble.body.contents[0].text = show.title
       bubble.body.contents[1].contents[0].contents[1].text =
@@ -79,9 +80,14 @@ export default async (event) => {
         contents: exhibitions
       }
     }
-    event.reply(reply)
+    if (exhibitions.length === 0) {
+      event.reply('很抱歉，附近沒有符合條件的展覽')
+    } else {
+      event.reply(reply)
+    }
     // writejson(reply, 'exhibitions')
   } catch (error) {
-    console.log(error)
+    // console.log(error)
+    event.reply('系統錯誤，請稍後再試')
   }
 }

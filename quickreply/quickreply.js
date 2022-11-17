@@ -2,7 +2,7 @@ export default async (event) => {
   try {
     const reply = {
       type: 'text',
-      text: '請輸入欲查詢的展演類型',
+      text: '請輸入想查詢的展演類型',
       quickReply: {
         items: [
           {

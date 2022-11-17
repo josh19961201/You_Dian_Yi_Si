@@ -1,32 +1,58 @@
 import axios from 'axios'
 import { DateTime } from 'luxon'
 import template from '../templates/flexConcert.js'
-import writejson from '../utils/writejson.js'
+// import writejson from '../utils/writejson.js'
+import addressTrans from '../location/addressTrans.js'
+import distanceCalc from '../location/distanceCalc.js'
 
 export default async (event) => {
   try {
     const { data } = await axios.get(
       'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=1'
     )
-    let concerts = []
+    const concerts = []
 
-    data.forEach(function (show, index) {
+    for (const show of data) {
       const bubble = JSON.parse(JSON.stringify(template))
 
+      // 時間判斷
       const today = DateTime.now().toISODate()
-      const oneWeekLater = DateTime.fromISO(today).plus({ days: 7 }).toISODate()
+      // const oneWeekLater = DateTime.fromISO(today).plus({ days: 7 }).toISODate()
+      const oneMonthLater = DateTime.fromISO(today)
+        .plus({ days: 30 })
+        .toISODate()
       const startDate = show.startDate.replaceAll('/', '-')
       const endDate = show.endDate.replaceAll('/', '-')
-      if (!(oneWeekLater >= startDate && today <= endDate)) return
+      if (oneMonthLater <= endDate) continue
 
-      // if (!(show.showInfo[0].latitude || show.showInfo[0].longitude)) {
-      //   addressTrans(show.showInfo[0].locationName)
-      // } else {
-      //   const coordinate = [
-      //     show.showInfo[0].latitude,
-      //     show.showInfo[0].longitude
-      //   ]
-      // }
+      //   地點判斷
+      const userCoordinate = [
+        parseFloat(event.message.text.split(',')[1]),
+        parseFloat(event.message.text.split(',')[2])
+      ]
+
+      if (show.showInfo[0].locationName.includes('線上')) continue
+
+      let showCoordinate
+      if (
+        show.showInfo[0].latitude === null ||
+        show.showInfo[0].longitude === null
+      ) {
+        showCoordinate = await addressTrans(show.showInfo[0].locationName)
+      } else {
+        showCoordinate = [
+          parseFloat(show.showInfo[0].latitude),
+          parseFloat(show.showInfo[0].longitude)
+        ]
+      }
+
+      const distance = distanceCalc(
+        userCoordinate[0],
+        userCoordinate[1],
+        showCoordinate[0],
+        showCoordinate[1]
+      )
+      if (distance > 20) continue
 
       bubble.body.contents[0].text = show.title
       bubble.body.contents[1].contents[0].contents[1].text =
@@ -38,31 +64,33 @@ export default async (event) => {
       }
       bubble.footer.contents[0].action.uri = show.sourceWebPromote
 
-      // 地點判斷
-
       concerts.push(bubble)
-    })
-    concerts = concerts.slice(0, 9)
-
-    concerts.forEach(function (show, index) {
-      if (!concerts[index].footer.contents[0].action.uri) {
-        delete concerts[index].footer
-        concerts[index].body.contents[1].contents[2].contents[1].text =
+      if (concerts.length > 9) break
+    }
+    for (const show of concerts) {
+      if (!show.footer.contents[0].action.uri) {
+        delete show.footer
+        show.body.contents[1].contents[2].contents[1].text =
           '無提供外部連結，相關資訊請自行搜尋'
       }
-    })
+    }
 
     const reply = {
       type: 'flex',
-      altText: '音樂展演查詢結果',
+      altText: '音樂演出查詢結果',
       contents: {
         type: 'carousel',
         contents: concerts
       }
     }
-    event.reply(reply)
-    writejson(reply, 'concerts')
+    if (concerts.length === 0) {
+      event.reply('很抱歉，附近沒有符合條件的音樂演出')
+    } else {
+      event.reply(reply)
+    }
+    // writejson(reply, 'concerts')
   } catch (error) {
-    console.log(error)
+    // console.log(error)
+    event.reply('系統錯誤，請稍後再試')
   }
 }
