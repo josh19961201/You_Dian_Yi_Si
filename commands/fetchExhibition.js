@@ -18,8 +18,8 @@ export default async (event) => {
       // 時間判斷
       const today = DateTime.now().toISODate()
       // const oneWeekLater = DateTime.fromISO(today).plus({ days: 7 }).toISODate()
-      const startDate = show.startDate.replaceAll('/', '-')
-      const endDate = show.endDate.replaceAll('/', '-')
+      const startDate = show.startDate.split('/').join('-')
+      const endDate = show.endDate.split('/').join('-')
       if (today <= startDate) continue
 
       //   地點判斷
