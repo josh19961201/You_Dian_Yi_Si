@@ -21,8 +21,8 @@ export default async (event) => {
       const oneMonthLater = DateTime.fromISO(today)
         .plus({ days: 30 })
         .toISODate()
-      const startDate = show.startDate.replaceAll('/', '-')
-      const endDate = show.endDate.replaceAll('/', '-')
+      const startDate = show.startDate.split('/').join('-')
+      const endDate = show.endDate.split('/').join('-')
       if (oneMonthLater <= endDate) continue
 
       //   地點判斷
