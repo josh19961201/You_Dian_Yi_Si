@@ -90,7 +90,7 @@ export default async (event) => {
     }
     // writejson(reply, 'concerts')
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     event.reply('系統錯誤，請稍後再試')
   }
 }
