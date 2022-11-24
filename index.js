@@ -4,7 +4,7 @@ import fetchExhibition from './commands/fetchExhibition.js'
 import fetchDance from './commands/fetchDance.js'
 import fetchDrama from './commands/fetchDrama.js'
 import fetchConcert from './commands/fetchConcert.js'
-import quickReply from './quickreply/quickReply.js'
+import quickReply from './quickreply/quickreply.js'
 import quickReplyLocation from './location/quickreplyLocation.js'
 
 const bot = linebot({
