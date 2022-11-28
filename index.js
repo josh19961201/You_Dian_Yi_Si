@@ -6,6 +6,9 @@ import fetchDrama from './commands/fetchDrama.js'
 import fetchConcert from './commands/fetchConcert.js'
 import quickReply from './quickreply/quickreply.js'
 import quickReplyLocation from './location/quickreplyLocation.js'
+import express from 'express'
+
+const app = express()
 
 const bot = linebot({
   channelId: process.env.CHANNEL_ID,
@@ -37,6 +40,14 @@ bot.on('message', async (event) => {
   }
 })
 
-bot.listen('/', process.env.PORT || 3000, () => {
+const linebotParser = bot.parser()
+
+app.post('/', linebotParser)
+
+app.get('/', (req, res) => {
+  res.status(200).send('ok')
+})
+
+app.listen(process.env.PORT || 3000, () => {
   console.log('機器人啟動')
 })
