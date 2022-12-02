@@ -9,6 +9,10 @@
 ---
 
 有點藝思
+
 LINE ID ：@564dgotk
+
+
 [點我加入好友](https://lin.ee/l2NORCX)
+
 ![有點藝思](./QR%20code.png)
