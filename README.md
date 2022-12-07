@@ -13,7 +13,7 @@
 ## 使用說明
 
 ### 一、傳送任何訊息，會出現【請選擇地點】按鈕，點擊【請選擇地點】
-![01](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/01.PNG =200)
+<img src="https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/01.PNG" width=250>
 
 ### 二、點擊右上角【分享】按鈕
 ![02](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/02.PNG)
