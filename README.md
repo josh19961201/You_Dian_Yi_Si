@@ -10,7 +10,23 @@
 
 ---
 
-有點藝思
+## 使用說明
+
+### 一、傳送任何訊息，會出現【請選擇地點】按鈕，點擊【請選擇地點】
+![01](./imags/instructions/01.PNG)
+
+### 二、點擊右上角【分享】按鈕
+![02](./imags/instructions/02.PNG)
+
+### 三、選擇想查詢的展演類型
+![03](./imags/instructions/03.PNG)
+
+### 四、結果出爐！您可以左右滑動以便差看多則活動訊息
+![04](./imags/instructions/04.PNG)
+
+---
+
+## 有點藝思
 
 LINE ID ：@564dgotk
 
