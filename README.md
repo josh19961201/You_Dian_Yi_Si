@@ -13,16 +13,16 @@
 ## 使用說明
 
 ### 一、傳送任何訊息，會出現【請選擇地點】按鈕，點擊【請選擇地點】
-![01](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/01.PNG){:width="50%"}
+![01](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/01.PNG =200)
 
 ### 二、點擊右上角【分享】按鈕
-![02](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/02.PNG){:width="50%"}
+![02](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/02.PNG)
 
 ### 三、選擇想查詢的展演類型
-![03](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/03.PNG){:width="50%"}
+![03](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/03.PNG)
 
 ### 四、結果出爐！您可以左右滑動以便差看多則活動訊息
-![04](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/04.PNG){:width="50%"}
+![04](https://github.com/josh19961201/You_Dian_Yi_Si/blob/main/imgs/instructions/04.PNG)
 
 ---
 
